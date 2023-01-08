@@ -32,8 +32,7 @@ public class GUICombattimenti extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(GUICombattimenti.class.getName()).log(Level.SEVERE, null, ex);
         }
-        initComponents();
-        
+        initComponents();   
     }
 
     /**
@@ -465,7 +464,7 @@ public class GUICombattimenti extends javax.swing.JFrame {
     /*
         ImageIcon icona = new ImageIcon("src/progcombattimenti/immagini/barra.png"); //funziona per cambiare immagine
         jLabel13.setIcon(icona);
-     */
+    */
     boolean[] cartaG = {false, false, false};
     boolean[] cartaAI = {false, false, false};
     boolean turnoG = true;
@@ -473,7 +472,6 @@ public class GUICombattimenti extends javax.swing.JFrame {
     Carta[] mazzoAI = new Carta[3];
     String ambiente = "";
     static BufferedImage img1;
-
     
     private void FineTurnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FineTurnoActionPerformed
         int rand;
@@ -498,6 +496,14 @@ public class GUICombattimenti extends javax.swing.JFrame {
 
             mazzoAI[j].attacco(mazzoG[i], ambiente);
         }
+        
+        cartaG[0] = false;
+        cartaG[1] = false;
+        cartaG[2] = false;
+        
+        cartaAI[0] = false;
+        cartaAI[1] = false;
+        cartaAI[2] = false;
         
         disegna();
         
