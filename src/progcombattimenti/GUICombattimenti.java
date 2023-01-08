@@ -32,7 +32,8 @@ public class GUICombattimenti extends javax.swing.JFrame {
         } catch (IOException ex) {
             Logger.getLogger(GUICombattimenti.class.getName()).log(Level.SEVERE, null, ex);
         }
-        initComponents();   
+        initComponents();
+        cambiaAmbiente();
     }
 
     /**
@@ -464,7 +465,7 @@ public class GUICombattimenti extends javax.swing.JFrame {
     /*
         ImageIcon icona = new ImageIcon("src/progcombattimenti/immagini/barra.png"); //funziona per cambiare immagine
         jLabel13.setIcon(icona);
-    */
+     */
     boolean[] cartaG = {false, false, false};
     boolean[] cartaAI = {false, false, false};
     boolean turnoG = true;
@@ -472,7 +473,7 @@ public class GUICombattimenti extends javax.swing.JFrame {
     Carta[] mazzoAI = new Carta[3];
     String ambiente = "";
     static BufferedImage img1;
-    
+
     private void FineTurnoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FineTurnoActionPerformed
         int rand;
         int i = 0, j = 0;
@@ -482,35 +483,32 @@ public class GUICombattimenti extends javax.swing.JFrame {
             }
             while (!cartaAI[j] && j < 2) {
                 j++;
-            } 
-
+            }
+            
             mazzoG[i].attacco(mazzoAI[j], ambiente);
+            cartaG[0] = false;
+            cartaG[1] = false;
+            cartaG[2] = false;
 
         } else {
             while (!cartaG[i] && i < 2) {
                 i++;
-            } 
-            while (!cartaAI[j] && j < 2){
+            }
+            while (!cartaAI[j] && j < 2) {
                 j++;
-            } 
+            }
 
             mazzoAI[j].attacco(mazzoG[i], ambiente);
+            cartaAI[0] = false;
+            cartaAI[1] = false;
+            cartaAI[2] = false;
         }
-        
-        cartaG[0] = false;
-        cartaG[1] = false;
-        cartaG[2] = false;
-        
-        cartaAI[0] = false;
-        cartaAI[1] = false;
-        cartaAI[2] = false;
-        
-        disegna();
-        
+
         turnoG = !turnoG;
         if (turnoG) {
             cambiaAmbiente();
         }
+        disegna();
     }//GEN-LAST:event_FineTurnoActionPerformed
 
     private void cartaBSMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cartaBSMousePressed
@@ -558,17 +556,7 @@ public class GUICombattimenti extends javax.swing.JFrame {
     private void iniziaGiocoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_iniziaGiocoActionPerformed
         // TODO add your handling code here:
         int rand;
-        cambiaAmbiente();
-        Graphics g1, g2, g3, g4, g5, g6;
-        g6 = cartaAS.getGraphics();
-        g5 = cartaAC.getGraphics();
-        g4 = cartaAD.getGraphics();
-        g3 = cartaBS.getGraphics();
-        g2 = cartaBC.getGraphics();
-        g1 = cartaBD.getGraphics();
-        
-        ImageIcon icona = new ImageIcon("src/progcombattimenti/immagini/barra.png");
-   
+        //ImageIcon icona = new ImageIcon("src/progcombattimenti/immagini/barra.png");
 
         for (int i = 0; i < 3; i++) {
             rand = (int) (Math.random() * 5);
@@ -614,35 +602,37 @@ public class GUICombattimenti extends javax.swing.JFrame {
         iniziaGioco.setEnabled(false);
         FineTurno.setEnabled(true);
     }//GEN-LAST:event_iniziaGiocoActionPerformed
+    
     private void disegna() {
-        Graphics g1, g2, g3, g4, g5, g6; 
+        Graphics g1, g2, g3, g4, g5, g6;
         g6 = cartaAS.getGraphics();
         g5 = cartaAC.getGraphics();
         g4 = cartaAD.getGraphics();
         g3 = cartaBS.getGraphics();
         g2 = cartaBC.getGraphics();
         g1 = cartaBD.getGraphics();
+        
         try {
             img1 = ImageIO.read(new File("src/progcombattimenti/immagini/CartaRobot.png"));
         } catch (IOException ex) {
             Logger.getLogger(GUICombattimenti.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         for (int i = 0; i < 3; i++) {
             switch (i) {
                 case 0:
                     attaccoBS.setEnabled(false);
                     vitaBS.setEnabled(false);
                     titoloBS.setEnabled(false);
-                    
+
                     g3.drawImage(img1, WIDTH, WIDTH, null);
-                    
+
                     attaccoBS.setEnabled(true);
                     attaccoBS.setText(String.valueOf(mazzoG[i].getAttacco()));
-                    
+
                     vitaBS.setEnabled(true);
                     vitaBS.setText(String.valueOf(mazzoG[i].getVita()));
-                    
+
                     titoloBS.setEnabled(true);
                     titoloBS.setText(String.valueOf(mazzoG[i].getNome()));
                     //cartaBS;
@@ -651,15 +641,15 @@ public class GUICombattimenti extends javax.swing.JFrame {
                     attaccoBC.setEnabled(false);
                     vitaBC.setEnabled(false);
                     titoloBC.setEnabled(false);
-                    
+
                     g2.drawImage(img1, WIDTH, WIDTH, null);
-                    
+
                     attaccoBC.setEnabled(true);
                     attaccoBC.setText(String.valueOf(mazzoG[i].getAttacco()));
-                    
+
                     vitaBC.setEnabled(true);
                     vitaBC.setText(String.valueOf(mazzoG[i].getVita()));
-                    
+
                     titoloBC.setEnabled(true);
                     titoloBC.setText(String.valueOf(mazzoG[i].getNome()));
                     //cartaBC;
@@ -668,37 +658,37 @@ public class GUICombattimenti extends javax.swing.JFrame {
                     attaccoBD.setEnabled(false);
                     vitaBD.setEnabled(false);
                     titoloBD.setEnabled(false);
-                    
+
                     g1.drawImage(img1, WIDTH, HEIGHT, null);
-                    
+
                     attaccoBD.setEnabled(true);
                     attaccoBD.setText(String.valueOf(mazzoG[i].getAttacco()));
-                    
+
                     vitaBD.setEnabled(true);
                     vitaBD.setText(String.valueOf(mazzoG[i].getVita()));
-                    
+
                     titoloBD.setEnabled(true);
-                    titoloBD.setText(String.valueOf(mazzoG[i].getNome()));     
+                    titoloBD.setText(String.valueOf(mazzoG[i].getNome()));
                     //cartaBD;
                     break;
             }
         }
-        
+
         for (int i = 0; i < 3; i++) {
             switch (i) {
                 case 0:
                     attaccoAS.setEnabled(false);
                     vitaAS.setEnabled(false);
                     titoloAS.setEnabled(false);
-                    
+
                     g6.drawImage(img1, WIDTH, WIDTH, null);
-                    
+
                     attaccoAS.setEnabled(true);
                     attaccoAS.setText(String.valueOf(mazzoAI[i].getAttacco()));
-                    
+
                     vitaAS.setEnabled(true);
                     vitaAS.setText(String.valueOf(mazzoAI[i].getVita()));
-                    
+
                     titoloAS.setEnabled(true);
                     titoloAS.setText(String.valueOf(mazzoAI[i].getNome()));
                     //cartaBS;
@@ -707,15 +697,15 @@ public class GUICombattimenti extends javax.swing.JFrame {
                     attaccoAC.setEnabled(false);
                     vitaAC.setEnabled(false);
                     titoloAC.setEnabled(false);
-                    
+
                     g5.drawImage(img1, WIDTH, WIDTH, null);
-                    
+
                     attaccoAC.setEnabled(true);
                     attaccoAC.setText(String.valueOf(mazzoAI[i].getAttacco()));
-                    
+
                     vitaAC.setEnabled(true);
                     vitaAC.setText(String.valueOf(mazzoAI[i].getVita()));
-                    
+
                     titoloAC.setEnabled(true);
                     titoloAC.setText(String.valueOf(mazzoAI[i].getNome()));
                     //cartaBC;
@@ -724,41 +714,43 @@ public class GUICombattimenti extends javax.swing.JFrame {
                     attaccoAD.setEnabled(false);
                     vitaAD.setEnabled(false);
                     titoloAD.setEnabled(false);
-                    
+
                     g4.drawImage(img1, WIDTH, HEIGHT, null);
-                    
+
                     attaccoAD.setEnabled(true);
                     attaccoAD.setText(String.valueOf(mazzoAI[i].getAttacco()));
-                    
+
                     vitaAD.setEnabled(true);
                     vitaAD.setText(String.valueOf(mazzoAI[i].getVita()));
-                    
+
                     titoloAD.setEnabled(true);
                     titoloAD.setText(String.valueOf(mazzoAI[i].getNome()));
-              
+
                     //cartaBD;
                     break;
             }
-        }   
+        }
     }
-    
-    
+
     private void cambiaAmbiente() {
         int rand = (int) (Math.random() * 3);
+        Color colore = null;
         switch (rand) {
             case 0:
                 ambiente = "terra";
-                jPanel1.setBackground(new Color(180, 243, 163));
+                colore = new Color(180, 243, 163);
                 break;
             case 1:
                 ambiente = "aria";
-                jPanel1.setBackground(new Color(198, 242, 242));
+                colore = new Color(198, 242, 242);
                 break;
             case 2:
                 ambiente = "acqua";
-                jPanel1.setBackground(new Color(57, 130, 255));
+                colore = new Color(57, 130, 255);
                 break;
         }
+        jPanel1.setBackground(colore);
+        
     }
 
     /**
